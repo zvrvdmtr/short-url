@@ -1,16 +1,16 @@
 Ulr shortener like https://bitly.com/ \
 Test task for Avito trinee/junior developer https://github.com/avito-tech/auto-backend-trainee-assignment
 
-##How to start:
+## How to start:
 
-###Manually
+### Manually
 1. Run database - docker run -d -p 5432:5432 -e POSTGRES_PASSWORD=postgres -e POSTGRES_USER=postgres postgres:12
 2. Run service - go run main.go
 
-###Docker-compose
+### Docker-compose
 1. Docker-compose up -d
 
-###Migrations
+### Migrations
 1. Connect to db
 2. Apply migration
 
