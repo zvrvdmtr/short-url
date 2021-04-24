@@ -10,7 +10,7 @@ import (
 )
 
 func main() {
-	models.InitDB("postgres://postgres:postgres@localhost:5432/postgres")
+	models.InitDB("postgres://postgres:postgres@0.0.0.0:5432/postgres")
 	defer models.CloseDB()
 	http.HandleFunc("/create", api.CreateLink)
 	http.HandleFunc("/", api.RedirectTolink)
