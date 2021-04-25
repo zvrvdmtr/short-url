@@ -29,3 +29,10 @@ create table link (
     ```
     Url for which short url will be created
 2. / - GET Will redirect to full url mapping to this url path
+
+## How it`s works
+1. Call method /create with url you want make shorter
+2. Create object in db contains url and short url
+3. Return json object conatining shor url as response
+4. Call method /%your short url%
+5. Redirect to url from step 1
