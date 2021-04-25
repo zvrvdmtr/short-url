@@ -14,7 +14,7 @@ type Link struct {
 func CreateNewShortUrl(url string) (Link, error) {
 	conn := GetDB()
 	var link Link
-	row := conn.QueryRow(context.Background(), "INSERT INTO link (url) values ($1) RETURNING id, url", url)
+	row := conn.QueryRow(context.Background(), "insert into link (url) values ($1) returning id, url", url)
 	err := row.Scan(&link.Id, &link.Url)
 	shortPath := generator.ShortUrlGenerator(link.Id)
 	link.ShortUrl = shortPath

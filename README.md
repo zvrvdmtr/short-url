@@ -18,7 +18,6 @@ Test task for Avito trinee/junior developer https://github.com/avito-tech/auto-b
 create table link (
     id serial,
     url varchar(255) not null,
-    short_url varchar(255) not null
 )
 ```
 
