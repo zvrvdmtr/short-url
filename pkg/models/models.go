@@ -14,17 +14,18 @@ type Link struct {
 func CreateNewShortUrl(url string) (Link, error) {
 	conn := GetDB()
 	var link Link
-	row := conn.QueryRow(context.Background(), "INSERT INTO link (url, short_url) values ($1, $2) RETURNING id, url", url, "shortUrl")
+	row := conn.QueryRow(context.Background(), "INSERT INTO link (url) values ($1) RETURNING id, url", url)
 	err := row.Scan(&link.Id, &link.Url)
 	shortPath := generator.ShortUrlGenerator(link.Id)
-	row = conn.QueryRow(context.Background(), "UPDATE link set short_url = $1 where id = $2 RETURNING short_url", shortPath, link.Id)
-	err = row.Scan(&link.ShortUrl)
+	link.ShortUrl = shortPath
 	return link, err
 }
 
 func FindLinkByShortUrl(shortUrl string) (Link, error) {
 	var link Link
-	row := conn.QueryRow(context.Background(), "select * from link where short_url = $1", shortUrl)
-	err := row.Scan(&link.Id, &link.Url, &link.ShortUrl)
+	id := generator.BijectiveDecode(shortUrl)
+	row := conn.QueryRow(context.Background(), "select * from link where id = $1", id)
+	err := row.Scan(&link.Id, &link.Url)
+	link.ShortUrl = shortUrl
 	return link, err
 }
