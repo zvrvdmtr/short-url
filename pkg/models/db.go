@@ -5,21 +5,17 @@ import (
 	"github.com/jackc/pgx/v4"
 )
 
-var conn *pgx.Conn
+type DBConnect interface {
+	QueryRow(ctx context.Context, sql string, args ...interface{}) pgx.Row
+}
 
-func InitDB(databaseUrl string) (*pgx.Conn, error) {
+var conn DBConnect
+
+func InitDB(databaseUrl string) (DBConnect, error) {
 	var err error
 	conn, _ = pgx.Connect(context.Background(), databaseUrl)
 	if err != nil {
 		return conn, err
 	}
 	return conn, nil
-}
-
-func GetDB() *pgx.Conn {
-	return conn
-}
-
-func CloseDB() error {
-	return conn.Close(context.Background())
 }

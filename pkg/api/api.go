@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/jackc/pgx/v4"
 	"github/zvrvdmtr/short-url/pkg/services"
+	"github/zvrvdmtr/short-url/pkg/models"
 	
 )
 
@@ -17,7 +17,7 @@ type Url struct {
 
 var url Url
 
-func CreateLink(conn *pgx.Conn) http.HandlerFunc {
+func CreateLink(conn models.DBConnect) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == http.MethodPost {
 			body, _ := ioutil.ReadAll(r.Body)
@@ -52,7 +52,7 @@ func CreateLink(conn *pgx.Conn) http.HandlerFunc {
 	}
 }
 
-func RedirectTolink(conn *pgx.Conn) http.HandlerFunc {
+func RedirectTolink(conn models.DBConnect) http.HandlerFunc {
 	return func (w http.ResponseWriter, r *http.Request) {
 		if r.Method == http.MethodGet {
 			short := strings.TrimLeft(r.URL.Path, "/")

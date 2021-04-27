@@ -1,0 +1,12 @@
+mode: set
+github/zvrvdmtr/short-url/pkg/generator/generator.go:10.39,14.38 4 1
+github/zvrvdmtr/short-url/pkg/generator/generator.go:17.2,17.33 1 1
+github/zvrvdmtr/short-url/pkg/generator/generator.go:14.38,16.3 1 1
+github/zvrvdmtr/short-url/pkg/generator/generator.go:20.49,22.13 2 1
+github/zvrvdmtr/short-url/pkg/generator/generator.go:27.2,27.15 1 1
+github/zvrvdmtr/short-url/pkg/generator/generator.go:22.13,26.3 3 1
+github/zvrvdmtr/short-url/pkg/generator/generator.go:30.40,32.32 2 1
+github/zvrvdmtr/short-url/pkg/generator/generator.go:35.2,35.15 1 1
+github/zvrvdmtr/short-url/pkg/generator/generator.go:32.32,34.3 1 1
+github/zvrvdmtr/short-url/pkg/services/services.go:15.73,22.2 6 1
+github/zvrvdmtr/short-url/pkg/services/services.go:24.79,31.2 6 1

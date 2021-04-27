@@ -15,7 +15,6 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	defer models.CloseDB()
 	http.HandleFunc("/create", api.CreateLink(conn))
 	http.HandleFunc("/", api.RedirectTolink(conn))
 	fmt.Println("Start server on localhost:8000")
