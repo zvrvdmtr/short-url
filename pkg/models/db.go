@@ -7,13 +7,13 @@ import (
 
 var conn *pgx.Conn
 
-func InitDB(databaseUrl string) error {
+func InitDB(databaseUrl string) (*pgx.Conn, error) {
 	var err error
 	conn, _ = pgx.Connect(context.Background(), databaseUrl)
 	if err != nil {
-		return err
+		return conn, err
 	}
-	return conn.Ping(context.Background())
+	return conn, nil
 }
 
 func GetDB() *pgx.Conn {
