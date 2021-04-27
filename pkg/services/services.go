@@ -1,8 +1,9 @@
-package models
+package services
 
 import (
 	"context"
 	"github/zvrvdmtr/short-url/pkg/generator"
+	"github/zvrvdmtr/short-url/pkg/models"
 )
 
 type Link struct {
@@ -11,8 +12,7 @@ type Link struct {
 	ShortUrl string
 }
 
-func CreateNewShortUrl(url string) (Link, error) {
-	conn := GetDB()
+func CreateNewShortUrl(conn models.DBConnect, url string) (Link, error) {
 	var link Link
 	row := conn.QueryRow(context.Background(), "insert into link (url) values ($1) returning id, url", url)
 	err := row.Scan(&link.Id, &link.Url)
@@ -21,7 +21,7 @@ func CreateNewShortUrl(url string) (Link, error) {
 	return link, err
 }
 
-func FindLinkByShortUrl(shortUrl string) (Link, error) {
+func FindLinkByShortUrl(conn models.DBConnect, shortUrl string) (Link, error) {
 	var link Link
 	id := generator.BijectiveDecode(shortUrl)
 	row := conn.QueryRow(context.Background(), "select * from link where id = $1", id)
