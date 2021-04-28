@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 	"strings"
 
 	"github/zvrvdmtr/short-url/pkg/services"
@@ -11,36 +12,42 @@ import (
 	
 )
 
-type Url struct {
+type Link struct {
 	Url string
 }
 
-var url Url
+var link Link
 
 func CreateLink(conn models.DBConnect) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == http.MethodPost {
 			body, _ := ioutil.ReadAll(r.Body)
-			err := json.Unmarshal(body, &url)
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusBadRequest)
+			unmarshalErr := json.Unmarshal(body, &link)
+			if unmarshalErr != nil {
+				http.Error(w, unmarshalErr.Error(), http.StatusBadRequest)
 				return
 			}
 	
-			if url.Url == "" {
+			if link.Url == "" {
 				http.Error(w, "Url field must be not empty", http.StatusBadRequest)
 				return
 			}
-	
-			link, err := services.CreateNewShortUrl(conn, url.Url)
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
+
+			_, parseErr := url.ParseRequestURI(link.Url)
+			if parseErr != nil {
+				http.Error(w, "Invalid url", http.StatusBadRequest)
 				return
 			}
 	
-			jsData, err := json.Marshal(link)
-			if err != nil {
-				http.Error(w, err.Error(), http.StatusInternalServerError)
+			link, createErr := services.CreateNewShortUrl(conn, link.Url)
+			if createErr != nil {
+				http.Error(w, createErr.Error(), http.StatusInternalServerError)
+				return
+			}
+	
+			jsData, marshalErr := json.Marshal(link)
+			if marshalErr != nil {
+				http.Error(w, marshalErr.Error(), http.StatusInternalServerError)
 				return
 			}
 	
